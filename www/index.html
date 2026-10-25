@@ -193,6 +193,25 @@ footer{border-top:1px solid var(--bd);padding:16px 24px;font-size:11px;color:var
 .intro{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px 22px}
 .intro .it{display:flex;flex-direction:column;align-items:flex-start;gap:10px;min-width:0}
 .intro .hero{width:168px;height:auto;border-radius:18px;border:1px solid rgba(232,190,80,.4);box-shadow:0 10px 34px rgba(232,190,80,.18),0 2px 8px rgba(0,0,0,.35);display:block}
+/* welcome splash */
+#splash{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:radial-gradient(ellipse at 50% 38%,#17213f 0%,#0a0e1d 58%,#05070f 100%);overflow:hidden;cursor:pointer;transition:opacity .55s ease,transform .55s ease;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+#splash.out{opacity:0;transform:scale(1.05);pointer-events:none}
+#splash canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+#splash .lg{position:relative;width:min(54vw,230px);aspect-ratio:3/4;border-radius:20px;overflow:hidden;border:1px solid rgba(232,190,80,.55);box-shadow:0 20px 60px rgba(232,190,80,.25);animation:spIn .9s cubic-bezier(.2,.8,.2,1) both,spGlow 2s ease-in-out .9s infinite}
+#splash .lg img{width:100%;height:100%;object-fit:cover;display:block}
+#splash .lg::after{content:"";position:absolute;top:-20%;bottom:-20%;left:-60%;width:40%;background:linear-gradient(100deg,transparent,rgba(255,240,190,.6),transparent);transform:skewX(-18deg);animation:spShine 1.3s ease .95s both}
+#splash .sp-t{position:relative;font:700 clamp(26px,7vw,38px)/1 "IBM Plex Sans",ui-sans-serif,system-ui,sans-serif;letter-spacing:.04em;color:#f6d77f;text-shadow:0 0 18px rgba(232,190,80,.5);margin-top:6px}
+#splash .sp-t span{display:inline-block;animation:spLet .5s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(.8s + var(--i)*.06s)}
+#splash .sp-s{position:relative;color:#c9cfe4;font-size:15px;letter-spacing:.14em;text-transform:uppercase;animation:spFade .7s ease 1.45s both}
+#splash .sp-bar{position:relative;width:min(46vw,170px);height:3px;border-radius:3px;background:rgba(255,255,255,.12);overflow:hidden;margin-top:6px}
+#splash .sp-bar i{display:block;height:100%;background:linear-gradient(90deg,#d99a1e,#ffe08a);animation:spBar 2.4s cubic-bezier(.3,.6,.3,1) both}
+#splash .sp-k{position:absolute;bottom:calc(22px + env(safe-area-inset-bottom,0px));font-size:11px;color:#7d86a6;letter-spacing:.08em;animation:spFade .6s ease 1.3s both}
+@keyframes spIn{from{opacity:0;transform:translateY(26px) scale(.8)}to{opacity:1;transform:none}}
+@keyframes spGlow{50%{box-shadow:0 20px 90px rgba(232,190,80,.5)}}
+@keyframes spShine{to{left:130%}}
+@keyframes spLet{from{opacity:0;transform:translateY(14px) scale(.7)}to{opacity:1;transform:none}}
+@keyframes spFade{from{opacity:0}to{opacity:1}}
+@keyframes spBar{from{width:0}to{width:100%}}
 @media(max-width:640px){
  .intro{gap:10px 14px}.intro .hero{width:92px;border-radius:12px}
  header{padding:0 14px;gap:10px}
@@ -225,11 +244,11 @@ footer{border-top:1px solid var(--bd);padding:16px 24px;font-size:11px;color:var
 const D={en:{pack:"Pack",unpack:"Unpack",repack:"Repack",tag:"Sprite folders in, cocos2d-x atlas and plist out.",runs:"runs in your browser · nothing uploaded",foot:"format 2 plist · trimmed · no rotation · tight non-power-of-two atlas",
 h_pack:"Choose your sprite frames",rotFixed:n=>`${n} rotated frame${n>1?"s":""} straightened. The new plist has rotated = false for every frame.`,rotIgn:n=>`Rotated flag ignored for ${n} frame${n>1?"s":""}; all frames treated as straight.`,ign:"Ignore the rotated flag (treat every frame as already straight)",s_pack:"Every image you choose, or every image inside a ZIP, becomes one frame.",b_zip:"Choose ZIP",add_zip:"Add ZIP",badZip:"Could not read this ZIP file.",noImgZip:"No images found in this ZIP.",b_pack:"Choose images",h_un:"Choose an atlas and its plist",s_un:"Pick one atlas PNG and its .plist file.",b_un:"Choose files",
 frames:"frames",add:"Add",clear:"Clear",png:"Download PNG",plist:"Download plist",zip:"Download ZIP",anim:"Animation preview",animS:"Placed by offset, from the anchor where the lines cross. Preview only — the anchor is set in your game code, not in the plist.",
-a0:"bottom center",a1:"bottom left",a2:"center",a3:"top left",onion:"Onion skin",o0:"Off",o1:"Previous",o2:"Next",o3:"Both",off:"plist offset",feet1:"Auto feet · this frame",rn:"Rename",rnN:n=>`Rename (${n})`,rnT:"Frame name",rnB:n=>`Batch rename · ${n} frames`,rm_fr:"Replace old name",rm_ps:"Prefix / suffix",rm_nu:"Name + number",rfind:"Old name (editable)",rdet:"Detected old names",rrepl:"New name",rcase:"Match case",rpre:"Prefix",rsuf:"Suffix",rbase:"Base name",rstart:"Start at",rsep:"Separator",rzpad:"Zero pad",rprev:"Preview",rapply:"Apply",rcancel:"Cancel",rdup:n=>`Name already used: ${n}`,rbad:"Name can't be empty.",rdone:n=>`Renamed ${n} frame${n>1?"s":""}`,rnochg:"No names changed.",feetN:n=>`Auto feet · all ${n} frames`,feetDone:n=>`Feet aligned on ${n} frame${n>1?"s":""}`,copy:n=>`Copy this offset to all ${n} frames`,fr:(i,n,a,x,y)=>`Frame ${i} of ${n} · from ${a} {${x},${y}}`,name:"Atlas name",pad:"Padding (px)",tag_unpack:"Break an atlas back into individual sprite frames.",tag_repack:"Load an atlas and its plist, then repack it into a new, tighter atlas.",grp:"Animation",fr_title:"Frames",search:"Search frames…",sel_all:"Select all",sel_none:"Deselect",del_sel:n=>`Delete selected (${n})`,del_one:"Delete this frame",deleted:n=>`Deleted ${n} frame${n>1?"s":""}`,undo:"Undo",none:"No frames match.",picked:(n,m)=>`${n} of ${m} selected`,zip_sel:n=>`Download ZIP (${n})`,nopick:"Select at least one frame.",needBoth:"Need both a PNG and a .plist.",got:n=>`Got ${n}. Now choose the other file.`,badPlist:"Could not read this .plist. It must be an XML plist (not binary).",noFrames:"No frames found in this .plist.",empty:"No usable files found."},
+a0:"bottom center",a1:"bottom left",a2:"center",a3:"top left",onion:"Onion skin",o0:"Off",o1:"Previous",o2:"Next",o3:"Both",off:"plist offset",feet1:"Auto feet · this frame",rn:"Rename",rnN:n=>`Rename (${n})`,rnT:"Frame name",rnB:n=>`Batch rename · ${n} frames`,rm_fr:"Replace old name",rm_ps:"Prefix / suffix",rm_nu:"Name + number",rfind:"Old name (editable)",rdet:"Detected old names",rrepl:"New name",rcase:"Match case",rpre:"Prefix",rsuf:"Suffix",rbase:"Base name",rstart:"Start at",rsep:"Separator",rzpad:"Zero pad",rprev:"Preview",rapply:"Apply",rcancel:"Cancel",rdup:n=>`Name already used: ${n}`,rbad:"Name can't be empty.",rdone:n=>`Renamed ${n} frame${n>1?"s":""}`,rnochg:"No names changed.",welcome:"Welcome",tapSkip:"Tap to skip",feetN:n=>`Auto feet · all ${n} frames`,feetDone:n=>`Feet aligned on ${n} frame${n>1?"s":""}`,copy:n=>`Copy this offset to all ${n} frames`,fr:(i,n,a,x,y)=>`Frame ${i} of ${n} · from ${a} {${x},${y}}`,name:"Atlas name",pad:"Padding (px)",tag_unpack:"Break an atlas back into individual sprite frames.",tag_repack:"Load an atlas and its plist, then repack it into a new, tighter atlas.",grp:"Animation",fr_title:"Frames",search:"Search frames…",sel_all:"Select all",sel_none:"Deselect",del_sel:n=>`Delete selected (${n})`,del_one:"Delete this frame",deleted:n=>`Deleted ${n} frame${n>1?"s":""}`,undo:"Undo",none:"No frames match.",picked:(n,m)=>`${n} of ${m} selected`,zip_sel:n=>`Download ZIP (${n})`,nopick:"Select at least one frame.",needBoth:"Need both a PNG and a .plist.",got:n=>`Got ${n}. Now choose the other file.`,badPlist:"Could not read this .plist. It must be an XML plist (not binary).",noFrames:"No frames found in this .plist.",empty:"No usable files found."},
 id:{pack:"Bungkus",unpack:"Bongkar",repack:"Bungkus Ulang",tag:"Folder sprite masuk, atlas cocos2d-x dan plist keluar.",runs:"berjalan di browser Anda · tidak ada yang diunggah",foot:"format 2 plist · dipangkas · tanpa rotasi · atlas non-power-of-two yang rapat",
 h_pack:"Pilih frame sprite Anda",rotFixed:n=>`${n} frame rotated diluruskan. Plist baru berisi rotated = false untuk semua frame.`,rotIgn:n=>`Flag rotated diabaikan untuk ${n} frame; semua frame dianggap sudah lurus.`,ign:"Abaikan flag rotated (anggap semua frame sudah lurus)",s_pack:"Setiap gambar yang Anda pilih, atau yang ada di dalam ZIP, menjadi satu frame.",b_zip:"Pilih ZIP",add_zip:"Tambah ZIP",badZip:"File ZIP tidak bisa dibaca.",noImgZip:"Tidak ada gambar di dalam ZIP ini.",b_pack:"Pilih gambar",h_un:"Pilih atlas dan plist-nya",s_un:"Pilih satu PNG atlas dan file .plist-nya.",b_un:"Pilih file",
 frames:"frame",add:"Tambah",clear:"Kosongkan",png:"Unduh PNG",plist:"Unduh plist",zip:"Unduh ZIP",anim:"Pratinjau Animasi",animS:"Ditempatkan oleh offset, dari jangkar tempat garis bersilang. Pratinjau saja — jangkar diatur dalam kode game Anda, bukan di plist.",
-a0:"bawah tengah",a1:"bawah kiri",a2:"tengah",a3:"atas kiri",onion:"Onion skin",o0:"Mati",o1:"Sebelumnya",o2:"Berikutnya",o3:"Keduanya",off:"offset plist",feet1:"Kaki otomatis · frame ini",rn:"Ganti nama",rnN:n=>`Ganti nama (${n})`,rnT:"Nama frame",rnB:n=>`Ganti nama massal · ${n} frame`,rm_fr:"Ganti nama lama",rm_ps:"Awalan / akhiran",rm_nu:"Nama + nomor",rfind:"Nama lama (bisa diedit)",rdet:"Nama lama terdeteksi",rrepl:"Nama baru",rcase:"Peka huruf besar/kecil",rpre:"Awalan",rsuf:"Akhiran",rbase:"Nama dasar",rstart:"Mulai dari",rsep:"Pemisah",rzpad:"Nol di depan",rprev:"Pratinjau",rapply:"Terapkan",rcancel:"Batal",rdup:n=>`Nama sudah dipakai: ${n}`,rbad:"Nama tidak boleh kosong.",rdone:n=>`${n} frame diganti namanya`,rnochg:"Tidak ada nama yang berubah.",feetN:n=>`Kaki otomatis · semua ${n} frame`,feetDone:n=>`Kaki disejajarkan di ${n} frame`,copy:n=>`Salin offset ini ke semua ${n} frame`,fr:(i,n,a,x,y)=>`Frame ${i} dari ${n} · dari ${a} {${x},${y}}`,name:"Nama atlas",pad:"Padding (px)",tag_unpack:"Bongkar atlas menjadi frame sprite satuan.",tag_repack:"Muat atlas dan plist-nya, lalu bungkus ulang menjadi atlas baru yang lebih rapat.",grp:"Animasi",fr_title:"Frame",search:"Cari frame…",sel_all:"Pilih semua",sel_none:"Batal pilih",del_sel:n=>`Hapus terpilih (${n})`,del_one:"Hapus frame ini",deleted:n=>`${n} frame dihapus`,undo:"Urungkan",none:"Tidak ada frame yang cocok.",picked:(n,m)=>`${n} dari ${m} dipilih`,zip_sel:n=>`Unduh ZIP (${n})`,nopick:"Pilih minimal satu frame.",needBoth:"Butuh PNG dan file .plist.",got:n=>`${n} sudah dipilih. Sekarang pilih file satunya.`,badPlist:"File .plist tidak bisa dibaca. Harus plist XML (bukan biner).",noFrames:"Tidak ada frame di file .plist ini.",empty:"Tidak ada file yang bisa dipakai."}};
+a0:"bawah tengah",a1:"bawah kiri",a2:"tengah",a3:"atas kiri",onion:"Onion skin",o0:"Mati",o1:"Sebelumnya",o2:"Berikutnya",o3:"Keduanya",off:"offset plist",feet1:"Kaki otomatis · frame ini",rn:"Ganti nama",rnN:n=>`Ganti nama (${n})`,rnT:"Nama frame",rnB:n=>`Ganti nama massal · ${n} frame`,rm_fr:"Ganti nama lama",rm_ps:"Awalan / akhiran",rm_nu:"Nama + nomor",rfind:"Nama lama (bisa diedit)",rdet:"Nama lama terdeteksi",rrepl:"Nama baru",rcase:"Peka huruf besar/kecil",rpre:"Awalan",rsuf:"Akhiran",rbase:"Nama dasar",rstart:"Mulai dari",rsep:"Pemisah",rzpad:"Nol di depan",rprev:"Pratinjau",rapply:"Terapkan",rcancel:"Batal",rdup:n=>`Nama sudah dipakai: ${n}`,rbad:"Nama tidak boleh kosong.",rdone:n=>`${n} frame diganti namanya`,rnochg:"Tidak ada nama yang berubah.",welcome:"Selamat datang",tapSkip:"Ketuk untuk lewati",feetN:n=>`Kaki otomatis · semua ${n} frame`,feetDone:n=>`Kaki disejajarkan di ${n} frame`,copy:n=>`Salin offset ini ke semua ${n} frame`,fr:(i,n,a,x,y)=>`Frame ${i} dari ${n} · dari ${a} {${x},${y}}`,name:"Nama atlas",pad:"Padding (px)",tag_unpack:"Bongkar atlas menjadi frame sprite satuan.",tag_repack:"Muat atlas dan plist-nya, lalu bungkus ulang menjadi atlas baru yang lebih rapat.",grp:"Animasi",fr_title:"Frame",search:"Cari frame…",sel_all:"Pilih semua",sel_none:"Batal pilih",del_sel:n=>`Hapus terpilih (${n})`,del_one:"Hapus frame ini",deleted:n=>`${n} frame dihapus`,undo:"Urungkan",none:"Tidak ada frame yang cocok.",picked:(n,m)=>`${n} dari ${m} dipilih`,zip_sel:n=>`Unduh ZIP (${n})`,nopick:"Pilih minimal satu frame.",needBoth:"Butuh PNG dan file .plist.",got:n=>`${n} sudah dipilih. Sekarang pilih file satunya.`,badPlist:"File .plist tidak bisa dibaca. Harus plist XML (bukan biner).",noFrames:"Tidak ada frame di file .plist ini.",empty:"Tidak ada file yang bisa dipakai."}};
 const store=(k,v)=>{try{return v===undefined?localStorage.getItem(k):localStorage.setItem(k,v)}catch(e){}};
 let lang=store("zx-lang")||(/^id/i.test(navigator.language)?"id":"en");
 const t=k=>D[lang][k];
@@ -713,6 +732,39 @@ document.addEventListener("dragleave",()=>{dragN=Math.max(0,dragN-1);if(!dragN)d
 document.addEventListener("dragover",e=>e.preventDefault());
 document.addEventListener("drop",async e=>{e.preventDefault();dragN=0;dz(false);intake(await fromDrop(e.dataTransfer))});
 route_();
+/* ---------- welcome splash ---------- */
+(function(){
+  try{if(sessionStorage.getItem("ryy_splash"))return;sessionStorage.setItem("ryy_splash","1")}catch(_){}
+  const hero=document.querySelector(".hero");if(!hero)return;
+  const sp=document.createElement("div");sp.id="splash";
+  sp.innerHTML='<canvas></canvas><div class="lg"><img alt=""></div><div class="sp-t"></div><div class="sp-s"></div><div class="sp-bar"><i></i></div><div class="sp-k"></div>';
+  sp.querySelector("img").src=hero.src;
+  const T=sp.querySelector(".sp-t");"PrinceRyy".split("").forEach((c,i)=>{const s=document.createElement("span");s.textContent=c;s.style.setProperty("--i",i);T.append(s)});
+  sp.querySelector(".sp-s").textContent=t("welcome");
+  sp.querySelector(".sp-k").textContent=t("tapSkip");
+  document.body.append(sp);
+  /* gold pixel particles */
+  const cv=sp.querySelector("canvas"),cx=cv.getContext("2d"),dpr=Math.min(2,devicePixelRatio||1);
+  let W=0,H=0,raf=0,t0=performance.now(),burst=false;const P=[];
+  const size=()=>{W=cv.width=Math.round(sp.clientWidth*dpr);H=cv.height=Math.round(sp.clientHeight*dpr)};size();
+  const COL=["#ffd978","#f2b93b","#fff2c2","#d99a1e"];
+  const mkP=(x,y,vx,vy,life)=>P.push({x,y,vx,vy,l:life,m:life,s:(2+Math.floor(Math.random()*4))*dpr,c:COL[Math.floor(Math.random()*COL.length)]});
+  for(let i=0;i<60;i++)mkP(Math.random()*W,H*(.2+Math.random()*.9),(Math.random()-.5)*.3*dpr,-(.4+Math.random()*1.4)*dpr,120+Math.random()*160);
+  const tick=now=>{
+    const e=now-t0;
+    if(!burst&&e>850){burst=true;const bx=W/2,by=H*.42;for(let i=0;i<46;i++){const a=Math.random()*Math.PI*2,v=(1.2+Math.random()*3.2)*dpr;mkP(bx,by,Math.cos(a)*v,Math.sin(a)*v-.6*dpr,50+Math.random()*50)}}
+    if(e<2200&&Math.random()<.5)mkP(Math.random()*W,H+8,(Math.random()-.5)*.3*dpr,-(.6+Math.random()*1.6)*dpr,140+Math.random()*100);
+    cx.clearRect(0,0,W,H);
+    for(let i=P.length-1;i>=0;i--){const p=P[i];p.x+=p.vx;p.y+=p.vy;p.vx*=.992;p.l--;if(p.l<=0){P.splice(i,1);continue}
+      cx.globalAlpha=Math.min(1,p.l/p.m*1.6);cx.fillStyle=p.c;cx.fillRect(Math.round(p.x),Math.round(p.y),p.s,p.s)}
+    cx.globalAlpha=1;raf=requestAnimationFrame(tick)};
+  raf=requestAnimationFrame(tick);
+  addEventListener("resize",size);
+  let done=false;
+  const close=()=>{if(done)return;done=true;sp.classList.add("out");setTimeout(()=>{cancelAnimationFrame(raf);removeEventListener("resize",size);sp.remove()},600)};
+  sp.addEventListener("click",close);addEventListener("keydown",close,{once:true});
+  setTimeout(close,2700);
+})();
 </script>
 </body>
 </html>
