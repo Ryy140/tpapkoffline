@@ -1,0 +1,7 @@
+{
+  "appId": "com.princeryy.packer",
+  "appName": "PrinceRyy",
+  "webDir": "www",
+  "server": { "androidScheme": "https" },
+  "android": { "backgroundColor": "#0e0f15" }
+}
